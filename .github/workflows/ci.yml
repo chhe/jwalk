@@ -10,11 +10,21 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: Install rust
+      uses: dtolnay/rust-toolchain@master
+      with:
+          toolchain: stable
+
     - uses: Swatinem/rust-cache@v2
+
     - name: tests
       run: cargo test
+
     - name: docs
       run: cargo doc
+
     - name: bench
       run: JWALK_BENCHMARK_DIR=~/ cargo bench
