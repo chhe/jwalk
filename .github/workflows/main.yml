@@ -23,6 +23,13 @@ jobs:
         toolchain: stable
         components: clippy
 
+    - name: cache ${HOME}/.cache/sccache
+      uses: actions/cache@v3
+      with:
+        path: |
+          /home/runner/.cache/sccache
+        key: ${{ runner.os }}-${{ github.job }}-home-cache-sccache
+
     - name: setup rust cache
       uses: Swatinem/rust-cache@v2
       with:
