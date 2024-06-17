@@ -4,7 +4,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use ignore::WalkBuilder;
 use jwalk::{Error, Parallelism, WalkDir, WalkDirGeneric};
-use num_cpus;
 use rayon::prelude::*;
 use std::cmp;
 use std::fs::Metadata;
@@ -12,7 +11,6 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::sync::mpsc;
-use walkdir;
 
 fn big_dir() -> PathBuf {
     std::env::var_os("JWALK_BENCHMARK_DIR")
@@ -40,11 +38,17 @@ fn walk_benches(c: &mut Criterion) {
     checkout_linux_if_needed();
 
     c.bench_function("rayon (unsorted, n threads)", |b| {
-        b.iter(|| black_box(rayon_recursive_descent(big_dir(), None, false)))
+        b.iter(|| {
+            rayon_recursive_descent(big_dir(), None, false);
+            black_box(())
+        })
     });
 
     c.bench_function("rayon (unsorted, metadata, n threads)", |b| {
-        b.iter(|| black_box(rayon_recursive_descent(big_dir(), None, true)))
+        b.iter(|| {
+            rayon_recursive_descent(big_dir(), None, true);
+            black_box(())
+        })
     });
 
     c.bench_function("jwalk (unsorted, n threads)", |b| {
@@ -148,7 +152,7 @@ fn walk_benches(c: &mut Criterion) {
                     })
                 });
             let mut metadatas: Vec<_> = rx.into_iter().collect();
-            metadatas.sort_by(|a, b| a.len().cmp(&b.len()))
+            metadatas.sort_by_key(|a| a.len())
         })
     });
 
@@ -171,7 +175,7 @@ fn walk_benches(c: &mut Criterion) {
                     })
                 });
             let mut metadatas: Vec<_> = rx.into_iter().collect();
-            metadatas.sort_by(|a, b| a.len().cmp(&b.len()))
+            metadatas.sort_by_key(|a| a.len())
         })
     });
 
