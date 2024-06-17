@@ -227,7 +227,7 @@ impl<C: ClientState> WalkDirGeneric<C> {
             options: WalkDirOptions {
                 sort: false,
                 min_depth: 0,
-                max_depth: ::std::usize::MAX,
+                max_depth: usize::MAX,
                 skip_hidden: true,
                 follow_links: false,
                 parallelism: Parallelism::RayonDefaultPool {
