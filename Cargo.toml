@@ -27,7 +27,7 @@ lazy_static = "=1.5.0"
 
 # For examples
 clap = { version = "=4.5.31", features = ["derive"] }
-bytesize = "=2.0.0"
+bytesize = "=2.0.1"
 
 [[bench]]
 name = "walk_benchmark"
