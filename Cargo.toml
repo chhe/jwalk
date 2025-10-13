@@ -26,7 +26,7 @@ num_cpus = "=1.17.0"
 lazy_static = "=1.5.0"
 
 # For examples
-clap = { version = "=4.5.48", features = ["derive"] }
+clap = { version = "=4.5.49", features = ["derive"] }
 bytesize = "=2.1.0"
 
 [[bench]]
